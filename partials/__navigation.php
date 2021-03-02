@@ -21,6 +21,43 @@
           <li class="nav-item">
             <a class="nav-link" href="contact.php">Contact</a>
           </li>
+<?php  
+
+try {
+  
+
+  if( isset($_SESSION['logged'])){
+?>
+          <li class="nav-item">
+            <a class="nav-link" href="">Welcome back , <?php echo $_SESSION['name']; ?></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">Logout</a>
+          </li>
+
+<?php
+  }else {
+?>
+          <li class="nav-item">
+            <a class="nav-link" href="login.php">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="register.php">Register</a>
+          </li>
+
+<?php
+  }
+} catch ( PDOException $e) {
+  echo $e -> getMessage();
+
+}
+
+
+?>
+
+
+
+
         </ul>
       </div>
     </div>

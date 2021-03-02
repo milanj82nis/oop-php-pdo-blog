@@ -1,6 +1,7 @@
 <?php
 require_once 'include/db.inc.php';
 require_once 'include/class_autoloder.inc.php';
+
 ?>
 
 <!DOCTYPE html>

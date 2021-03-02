@@ -65,15 +65,14 @@ if( isset($_SESSION['logged'])){
 
 try {
 
-if( isset($_POST['register'])){
+if( isset($_POST['userLogin'])){
 
-$name = trim(htmlspecialchars($_POST['name']));
-$username = trim(htmlspecialchars($_POST['username']));
+
 $email = trim(htmlspecialchars($_POST['email']));
 $password = trim($_POST['password']);
-$password_confirmation = trim($_POST['password_confirmation']);
+
 $user = new User;
-$user -> userRegistration( $name , $username , $email  , $password , $password_confirmation  );
+$user -> userLogin(  $email  , $password ) ;
 
 }// main isset
 
@@ -85,24 +84,13 @@ $user -> userRegistration( $name , $username , $email  , $password , $password_c
 
 ?>
 
-                            <form name="my-form"  action="register.php" method="post">
-                                <div class="form-group row">
-                                    <label for="full_name" class="col-md-4 col-form-label text-md-right">Full Name</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="full_name" class="form-control" name="name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="user_name" class="col-md-4 col-form-label text-md-right">Username</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="user_name" class="form-control" name="username">
-                                    </div>
-                                </div>
+                            <form name="my-form"  action="login.php" method="post">
+                                
 
                                 <div class="form-group row">
                                     <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
                                     <div class="col-md-6">
-                                        <input type="text" id="email_address" class="form-control" name="email">
+                                        <input type="email" id="email_address" class="form-control" name="email">
                                     </div>
                                 </div>
 
@@ -114,19 +102,13 @@ $user -> userRegistration( $name , $username , $email  , $password , $password_c
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="present_address" class="col-md-4 col-form-label text-md-right">Repeat password</label>
-                                    <div class="col-md-6">
-                                        <input type="password" id="present_address" class="form-control" name="password_confirmation">
-                                    </div>
-                                </div>
-
+                                
 
                                           
 
                                     <div class="col-md-6 offset-md-4">
-                                        <button type="submit" name="register" class="btn btn-primary">
-                                        Register
+                                        <button type="submit" name="userLogin" class="btn btn-primary">
+                                        Login
                                         </button>
                                     </div>
                                 </div>

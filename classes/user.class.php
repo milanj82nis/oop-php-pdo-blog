@@ -2,8 +2,8 @@
 
 class User extends DbConnect {
 
-private function checkIsRegistrationFormEmpty( $name , $username , $email , $password , $password_confirmation , $featured_image ){
-	if( !empty($name) &&  !empty($username) &&  !empty($email) &&  !empty($password) &&  !empty($password_confirmation) &&  !empty($featured_image)  ){
+private function checkIsRegistrationFormEmpty( $name , $username , $email , $password , $password_confirmation ){
+	if( !empty($name) &&  !empty($username) &&  !empty($email) &&  !empty($password) &&  !empty($password_confirmation)){
 		return true;
 
 	} else {
@@ -65,9 +65,9 @@ if( $password != $password_confirmation ){
 }// checkIsPasswordsSame 
 
 
-public function userRegistration( $name , $username , $email , $password , $password_confirmation , $featured_image ){
+public function userRegistration( $name , $username , $email , $password , $password_confirmation  ){
 
-if( $this -> checkIsRegistrationFormEmpty( $name , $username , $email , $password , $password_confirmation , $featured_image)){
+if( $this -> checkIsRegistrationFormEmpty( $name , $username , $email , $password , $password_confirmation)){
 
 if( $this ->  checkIsEmailValid($email)){
 
@@ -81,11 +81,11 @@ if( $this -> checkIsPasswordsSame($password   , $password_confirmation )){
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 $created_at = date('Y-m-d H:i:s'); 
 $updated_at = date('Y-m-d H:i:s'); 
-$sql = 'insert into users ( name , username , email , password , featured_image , created_at , updated_at ) values ( ? , ? , ? , ? , ? , ? , ? ) ';
+$sql = 'insert into users ( name , username , email , password , is_admin , created_at , updated_at ) values ( ? , ? , ? , ? , ? , ? , ? ) ';
 
 $query = $this -> connect () -> prepare($sql );
 
-$query -> execute( [ $name , $username , $email , $hashed_password ,$featured_image , $created_at , $updated_at  ]);
+$query -> execute( [ $name , $username , $email , $hashed_password   , 0 , $created_at , $updated_at  ]);
 echo 'You are registered on site.';
 header('Location:index.php');
 exit();
@@ -121,7 +121,68 @@ echo 'Email address is already registered.';
 
 }// userRegistration
 
+protected function checkIsLoginFormEmpty($email , $password ){
+if( !empty($email ) && !empty($password )){
 
+	return true;
+} else {
+	return false;
+}
+
+
+}// checkIsLoginFormEmpty
+public function userLogin($email  , $password ){
+
+if( $this -> checkIsLoginFormEmpty($email , $password )) {
+
+
+			$sql = 'select * from users where email = ? ';
+			
+			$query = $this -> connect() -> prepare( $sql );
+			
+			$query -> execute( [$email]);
+			
+			$results = $query -> fetchAll();
+
+
+if( count($results ) > 0 ){
+foreach ($results as $result) {
+	$hashed_password = $result['password'];
+
+	if( password_verify($password , $hashed_password )){
+
+						$_SESSION['logged'] = 1;
+						$_SESSION['user_id'] = $result['id'];
+						$_SESSION['name'] = $result['name'];
+						$_SESSION['email'] = $result['email'];
+						$_SESSION['is_admin'] = $result['is_admin'];
+						$_SESSION['featured_image'] = $result['featured_image'];
+						
+header('Location:index.php');
+exit();
+	} else {
+
+		echo 'Wrong email or password.';
+	}
+
+
+}
+
+
+} else {
+
+	echo 'Wrong email or password.';
+}
+
+
+
+
+} else {
+
+	echo 'Please , fill all fields in form.';
+} // checkIsLoginFormEmpty
+
+}// userLogin
 
 
 
