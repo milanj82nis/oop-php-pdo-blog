@@ -32,8 +32,32 @@ try {
             <a class="nav-link" href="">Welcome back , <?php echo $_SESSION['name']; ?></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Logout</a>
+            <a class="nav-link" >
+<form action="" method="post">
+                  <?php 
+                  $user = new User;
+  
+                  if( isset( $_POST['logged_out'])){
+                    $user-> userLogout();
+                    
+                  }
+                  ?>
+                  <button tabindex="-1" class="" name="logged_out" style="border:none;"> Odjavi se</button>
+                  </form></a>
           </li>
+
+<?php 
+if( isset($_SESSION['is_admin']) == 1 ){
+?>
+<li class="nav-item"><a  class="nav-link" href="dashboard.php">ADMIN</a></li>
+<?php
+}
+?>
+
+
+
+
+
 
 <?php
   }else {

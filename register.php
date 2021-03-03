@@ -1,11 +1,13 @@
 <?php
 require_once 'include/db.inc.php';
 require_once 'include/class_autoloder.inc.php';
-if( isset($_SESSION['logged'])){
+$loggedIn = new User;
+if($loggedIn -> checkIsUserLoggedIn()){
 
     header('Location:index.php');
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>

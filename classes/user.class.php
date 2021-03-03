@@ -2,6 +2,29 @@
 
 class User extends DbConnect {
 
+
+public function checkIsUserLoggedIn(){
+
+	if( isset($_SESSION['logged'])){
+		return true;
+	}else {
+		return false;
+	}
+}
+
+
+
+
+public function userLogout(){
+
+			if( isset($_SESSION['logged'])){
+				
+				session_destroy();
+				header('Location:index.php');
+			}
+			
+}// userLogout
+
 private function checkIsRegistrationFormEmpty( $name , $username , $email , $password , $password_confirmation ){
 	if( !empty($name) &&  !empty($username) &&  !empty($email) &&  !empty($password) &&  !empty($password_confirmation)){
 		return true;
